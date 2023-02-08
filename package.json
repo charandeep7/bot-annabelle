@@ -1,0 +1,26 @@
+{
+  "name": "bot-annabelle",
+  "version": "1.0.0",
+  "description": "Simple Discord Bot",
+  "main": "index.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "npm index"
+  },
+  "keywords": [
+    "discord",
+    "discord bot",
+    "bot",
+    "kitish"
+  ],
+  "author": {
+    "name": "KITISH",
+    "email": "kitishkumar2003@gmail.com",
+    "url": "https://kitish-portfolio.netlify.app/"
+  },
+  "license": "ISC",
+  "dependencies": {
+    "discord.js": "^14.7.1",
+    "glowing-engine": "^1.0.3"
+  }
+}
