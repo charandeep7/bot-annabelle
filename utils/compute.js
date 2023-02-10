@@ -18,6 +18,20 @@ function getSpamMetaData(params,message) {
   return [text,times]
 }
 
+function getTimeStatus(message,handleGetTime){
+  const currentIndiaTime = handleGetTime(message,true).split(':')
+  const hour = +currentIndiaTime[0]
+  if(hour >= 4 && hour <= 11){
+    return "MORNING"
+  }else if(hour >= 12 && hour <= 16){
+    return "NOON"
+  }else if(hour >= 17 && hour <= 22){
+    return "EVENING"
+  }else{
+    return "NIGHT"
+  }
+}
 module.exports = {
-    getSpamMetaData
+    getSpamMetaData,
+    getTimeStatus
 }

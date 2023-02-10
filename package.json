@@ -1,6 +1,6 @@
 {
   "name": "bot-annabelle",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Simple Discord Bot",
   "main": "index.js",
   "type": "commonjs",
@@ -22,6 +22,7 @@
   "dependencies": {
     "discord.js": "^14.7.1",
     "dotenv": "^16.0.3",
-    "glowing-engine": "^1.0.3"
+    "glowing-engine": "^1.0.4",
+    "node-cron": "^3.0.2"
   }
 }

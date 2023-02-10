@@ -1,25 +1,10 @@
-const { REST, Routes, SlashCommandBuilder } = require("discord.js");
+const { REST, Routes } = require("discord.js");
+const { pingcmd, advicecmd, evaluatecmd , commandsName } = require('./commands/commandList')
 require("dotenv").config();
 
-const evaluatecmd = new SlashCommandBuilder()
-  .setName("evaluate")
-  .setDescription("Evaluate mathematical expression")
-  .addStringOption((option) =>
-    option
-      .setName("expression")
-      .setDescription("A mathematical expression")
-      .setRequired(true)
-  );
-
 const commands = [
-  {
-    name: "ping",
-    description: "Replies with Pong!",
-  },
-  {
-    name: "advice",
-    description: "Replies with a random advice",
-  },
+  pingcmd.toJSON(),
+  advicecmd.toJSON(),
   evaluatecmd.toJSON(),
 ];
 
@@ -39,11 +24,6 @@ const rest = new REST({ version: "10" }).setToken(process.env.TOKEN);
   }
 })();
 
-const commandsName = {
-  PING: "ping",
-  ADVICE: "advice",
-  EVALUATE: "evaluate",
-};
 
 module.exports = {
   commandsName,
