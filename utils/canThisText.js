@@ -15,7 +15,7 @@ const canDateText = ["date", "Date", "DATE", "dtae"];
 
 const canSpamText = ["spam", "SPAM", "Spam", "sPaM"];
 
-const canByeText = ["bye","BYE","byeeeee","byeee","Bye","byeee"]
+const canByeText = ["bye","BYE","byeeeee","byeee","Bye","byee","byeee"]
 
 const canGoodMorningText = ['morning','goodmorning','good morning','Good Morning','GOOD MORNING','GOOODMORNING','gm','gudmorning','good mrng','Goodmorning','GoodMorning']
 

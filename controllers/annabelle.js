@@ -161,7 +161,7 @@ function handleGoodNight(message){
   const status = getTimeStatus(message,handleGetTime)
   if(status !== "NIGHT"){
     return message.reply({
-      content: `Lol, Okay Good Night but I think it's currently **${status}**}`
+      content: `Lol, Okay Good Night but I think it's currently **${status}**`
     })
   }
   const goodNightMsg = ['goodnight',`Good Night`,`Good Night **${message.author.username}**`,`gn`,'good night',`Good Night !! Sweet Dreams ${message.author.username}`,'night','Night','Okay, Good night','gud ni8']

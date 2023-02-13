@@ -1,4 +1,8 @@
+require("dotenv").config();
+
 const { Client, GatewayIntentBits } = require("discord.js");
+
+const { OpenAIApi, Configuration } = require("openai");
 
 const cron = require("node-cron");
 
@@ -42,7 +46,11 @@ const {
 
 const { getSpamMetaData } = require("./utils/compute");
 
-require("dotenv").config();
+const config = new Configuration({
+  apiKey: process.env.OPEN_AI,
+});
+
+const openai = new OpenAIApi(config);
 
 const client = new Client({
   intents: [
@@ -52,7 +60,9 @@ const client = new Client({
   ],
 });
 
-client.on("messageCreate", (message) => {
+const PAST_MESSAGE = 5;
+
+client.on("messageCreate", async (message) => {
   if (message.author.bot) return false;
 
   if (message.content.includes("@here") || message.type == "REPLY")
@@ -63,6 +73,7 @@ client.on("messageCreate", (message) => {
     const params = message.content.split(" ");
     const question = params[1];
     const question2 = params.slice(1, 3).join(" ");
+
     if (canWelcomeText.includes(question)) {
       handleTagWelcomeMessgae(message);
     } else if (canTimeText.includes(question)) {
@@ -88,7 +99,54 @@ client.on("messageCreate", (message) => {
     } else if (question === "cat") {
       handleTemp(message);
     } else {
-      handle404(message);
+      // GPT3 handle
+      if (message.channel.id === process.env.ANNABELLE_CHANNEL) {
+        message.channel.sendTyping();
+        try {
+          let messages = Array.from(
+            await message.channel.messages.fetch({
+              limit: PAST_MESSAGE,
+              before: message.id,
+            })
+          );
+
+          messages = messages.map((message) => message[1]);
+          messages.unshift(message);
+
+          let users = [
+            ...new Set([
+              ...messages.map((message) => message.member.displayName),
+              client.user.username,
+            ]),
+          ];
+
+          let lastUser = users.pop();
+
+          let prompt = `The following is a conversation between ${users.join(
+            ", "
+          )}, and ${lastUser}. \n\n`;
+
+          for (let i = messages.length - 1; i >= 0; --i) {
+            const m = messages[i];
+            prompt += `${m.member.displayName}: ${m.content}\n`;
+          }
+
+          prompt += `${client.user.username}`;
+
+          const response = await openai.createCompletion({
+            prompt,
+            model: "text-davinci-003",
+            max_tokens: 1000,
+            stop: ["\n"],
+          });
+          const reply = response.data.choices[0].text;
+          await message.channel.send(reply);
+        } catch (e) {
+          handle404(message);
+        }
+      } else {
+        handle404(message);
+      }
     }
   }
 
@@ -113,16 +171,18 @@ client.on("interactionCreate", async (interaction) => {
 });
 
 const setSchedules = () => {
-  const general = client.channels.cache.get(process.env.SERVER_401_GENERAL_CHANNEL_ID);
+  const general = client.channels.cache.get(
+    process.env.SERVER_401_GENERAL_CHANNEL_ID
+  );
   birthdays.forEach((birthday, userId) => {
     if (birthday.status !== year) {
-      birthdays.set(userId,{...birthday, status: year})
+      birthdays.set(userId, { ...birthday, status: year });
       const user = client.users.cache.get(userId);
       cron.schedule(`* * ${birthday.day} ${birthday.month} *`, () => {
-          general.send(`Today's ${user.toString()} birthday, congratulations!`);
+        general.send(`Today's ${user.toString()} birthday, congratulations!`);
       });
-    }else{
-      return
+    } else {
+      return;
     }
   });
 };
