@@ -1,4 +1,4 @@
 # bot-annabelle
-Simple discord bot
+Discord bot
 
-![image](https://user-images.githubusercontent.com/96859500/217801558-992024f3-66db-461d-92ed-55d26c91fdf9.png)
+![image](https://user-images.githubusercontent.com/96859500/218267308-958e1e6d-da5b-4b7d-b41d-8199cde2c797.png)
