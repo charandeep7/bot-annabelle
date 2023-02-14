@@ -100,7 +100,7 @@ client.on("messageCreate", async (message) => {
       handleTemp(message);
     } else {
       // GPT3 handle
-      if (message.channel.id === process.env.ANNABELLE_CHANNEL || message.channel.id === process.e.ANNABELLE_CHANNEL_2) {
+      if (message.channel.id === process.env.ANNABELLE_CHANNEL || message.channel.id === process.env.ANNABELLE_CHANNEL_2) {
         message.channel.sendTyping();
         try {
           let messages = Array.from(
@@ -140,8 +140,8 @@ client.on("messageCreate", async (message) => {
             stop: ["${client.user.username}","${m.member.displayName}"],
           });
           const reply = response.data.choices[0].text;
-          console.log(response.data)
-          await message.channel.send(`\`\`\`${reply}\`\`\``);
+          // console.log(response.data)
+          await message.channel.send(reply);
         } catch (e) {
           handle404(message);
         }
