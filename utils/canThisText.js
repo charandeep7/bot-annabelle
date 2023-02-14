@@ -7,6 +7,7 @@ const canWelcomeText = [
   "HI",
   "Hey",
   "HEY",
+  "heyy"
 ];
 
 const canTimeText = ["time", "Time", "TIME"];

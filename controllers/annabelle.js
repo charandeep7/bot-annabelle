@@ -1,3 +1,5 @@
+require("dotenv").config();
+
 const { random } = require("glowing-engine");
 
 const { getTimeStatus } = require("../utils/compute")
@@ -67,7 +69,7 @@ function handleGetTime(message,flag=false) {
   const utcTime = date.getTime() + date.getTimezoneOffset() * 60000;
   const timeOffset = 5 + 30 / 60;
   const India = new Date(utcTime + 3600000 * timeOffset).toLocaleTimeString();
-  if(flag) return new Date().toLocaleTimeString([],{
+  if(flag) return new Date(utcTime + 3600000 * timeOffset).toLocaleTimeString([],{
     hour12: false
   })
   return message.reply({
@@ -90,7 +92,7 @@ function handleGetDate(message) {
 
 function handleTagWelcomeMessgae(message) {
   const userName = message.author.username;
-  const admin = message.author.id;
+  const admin = process.env.KITISH_ID;
   return message.channel.send(
     `Hey **${userName}** ${random.randomPickFromArray(
       emojis
@@ -104,7 +106,7 @@ function handleSpam(canSpam, message, text = "Kitish") {
       content: `SORRY !!! MAX_LIMIT = 100 \n Actually, I'm hosted on a free server so it may create issue for me.`,
     });
   }
-  return message.reply({
+  return message.channel.send({
     content: `${text}`,
   });
 }

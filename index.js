@@ -178,7 +178,7 @@ const setSchedules = () => {
     if (birthday.status !== year) {
       birthdays.set(userId, { ...birthday, status: year });
       const user = client.users.cache.get(userId);
-      cron.schedule(`* * ${birthday.day} ${birthday.month} *`, () => {
+      cron.schedule(`0 0 ${birthday.day} ${birthday.month} *`, () => {
         general.send(`Today's ${user.toString()} birthday, congratulations!`);
       });
     } else {
